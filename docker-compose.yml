@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  sevchain:
+    image: 'sever3d/sevchain:latest'
+    ports:
+    - '3001:3001'
+    - '5001:5001'
+    restart: always
+    environment:
+      - PEERS="ws://13.40.42.210:5001"

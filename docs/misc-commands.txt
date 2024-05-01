@@ -1,0 +1,12 @@
+
+
+sudo docker compose -f compose-sevchain.yml stop && \ 
+sudo docker compose -f compose-sevchain.yml rm -f &&  \ 
+sudo docker compose -f compose-sevchain.yml pull && \ 
+sudo docker compose -f compose-sevchain.yml up -d 
+
+
+sudo docker compose -f compose-seednode.yml stop && \ 
+sudo docker compose -f compose-seednode.yml rm -f &&  \ 
+sudo docker compose -f compose-seednode.yml pull && \ 
+sudo docker compose -f compose-seednode.yml up -d 
