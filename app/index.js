@@ -139,7 +139,7 @@ app.post('/node/mine-transactions', (req, res) => {
 })
 
 app.get('/node/healthcheck', (req, res) => {
-    res.status(200).send("OK")
+    res.status(200).send({"message": "healthy"})
 })
 
 app.get('/node/registerednodes', (req, res) => {
