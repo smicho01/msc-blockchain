@@ -41,7 +41,7 @@ class Wallet {
         return this.keyPair.sign(dataHash)
     }
 
-    createTransaction(recipient, amount, blockchain, transactionPool, sender = null) {
+    createTransaction(recipient, amount, blockchain, transactionPool, data, sender = null) {
         // BELOW CLODE WAS USED TO ADD TRANSACTIONS TO POOL, but it was conflict when
         // different nodes wanted to add its transaction to the same, not mined pool
         //
@@ -66,13 +66,13 @@ class Wallet {
 
             transaction = transactionPool.existingTransaction(sender.publicKey)
             if (transaction) {
-                transaction.update(sender, recipient, amount)
+                transaction.update(sender, recipient, amount, data) // TODO : add data element
                 if (!Transaction.verifyTransaction(transaction)) {
                     log(`NOT VERIFIED: ${transaction.id}`, LogsColours.BgRed)
                     return 'not verified'
                 }
             } else {
-                transaction = Transaction.newTransaction(sender, recipient, amount)
+                transaction = Transaction.newTransaction(sender, recipient, amount, data) // TODO: add data element
                 if (!Transaction.verifyTransaction(transaction)) {
                     log(`NOT VERIFIED: ${transaction.id} `, LogsColours.BgRed)
                     return 'not verified'
@@ -87,7 +87,7 @@ class Wallet {
                 return 'insufficient funds'
             }
             // Each block will have jsut 1 transaction.
-            transaction = Transaction.newTransaction(this, recipient, amount)
+            transaction = Transaction.newTransaction(this, recipient, amount, data)
             if (!Transaction.verifyTransaction(transaction)) {
                 log(`NOT VERIFIED: ${transaction.id}`, LogsColours.BgRed)
                 return 'not verified'

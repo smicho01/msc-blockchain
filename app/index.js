@@ -23,8 +23,8 @@ app.use(bodyParser.json())
 
 /* Perform basic inits for the Node */
 const blockchain = new Blockchain()
-const wallet = new Wallet(process.env.BLOCKCHAIN_WALLET_PUB, process.env.BLOCKCHAIN_WALLET_PRIV)
-wallet.setBalance(100000000)
+const wallet = new Wallet(process.env.BLOCKCHAIN_WALLET_PUB, process.env.BLOCKCHAIN_WALLET_PRIV) // node wallet
+wallet.setBalance(100000000) // node wallet balance; Used to reward users
 console.log(`Blockchain wallet balance: ${wallet.balance}`)
 const tp = new TractionPool()
 const p2pServer = new P2PServer(blockchain, tp);
@@ -85,23 +85,26 @@ app.get('/transaction', (req, res) => {
  *  If sent `sender_pub` and `sender_priv` It will set this wallet as a sender wallet. If those 2 are not available, it will set
  *  node wallet as sender wallet. 
 {
-    "sender_pub": "041ff135ccbd5f0181a411a2dbaa21cd06d23e6565e003d4c1f6d2a66e735c1cd2ddd358023a17d5efbc0b0496906531abe9fac70a5179246695dc40edb8e8b6ef",
-    "sender_priv": "315cd1fcb23e8f89aa7438d62537469c05e592bf3c174ccb35ff9a26220a34fa",
-    "recipient": "04fa71fa391fe21bb81b9a169f567cc8ee2f8b19bd74275854382b3b2a9c717c35d0c7888a71a5d3f54c9b6be63b8e54615e8b2b259df413ef93e170564e71653b",
+    "sender_pub": "041ff135ccbd5f023a81a411a2dbaa21cd06d23e6565e003d4c1f6d2a66e735c1cd2ddd358023a17d5efbc0b0496906531abe9fac70a5179246695dc40edb8e8b6ef",
+    "sender_priv": "315cd1fcb38e8f89aa7438d62537469c05e592bf3c174ccb35ff9a26220a34fa",
+    "recipient": "04fa71fa3923fe21bb81b9a169f567cc8ee2f8b19bd74275854382b3b2a9c717c35d0c7888a71a5d3f54c9b6be63b8e54615e8b2b259df413ef93e170564e71653b",
     "amount": 45
 }
  */
 
 app.post('/transaction', (req, res) => {
-    const { recipient, amount, sender_pub, sender_priv } = req.body
+    const { recipient, amount, sender_pub, sender_priv, data } = req.body
+    if(data) {
+        console.log("MAM DATA: " , data)
+    }
     let transaction = null
     if (sender_pub && sender_priv) {
         //console.log(`Sender address is set`);
         const senderWallet = new Wallet(sender_pub, sender_priv)
-        transaction = wallet.createTransaction(recipient, amount, blockchain, tp, senderWallet)
+        transaction = wallet.createTransaction(recipient, amount, blockchain, tp, data, senderWallet)
     } else {
         //console.log(`Sender adddress unset.`);
-        transaction = wallet.createTransaction(recipient, amount, blockchain, tp)
+        transaction = wallet.createTransaction(recipient, amount, blockchain, tp, data)
     }
 
     if (!(transaction instanceof Transaction)) {
@@ -181,8 +184,8 @@ app.listen(HTTP_PORT, () => log(`listening on port ${HTTP_PORT}`))
 log(`This server: ${CURRENT_SERVER}`, LogsColours.BgWhite)
 log(`Selected profile: ${PROFILE}`)
 
-registerWithSeedServer()
-cronejob_get_peers_lists_from_seed_servers()
+registerWithSeedServer() // auto-register with known seed servers
+cronejob_get_peers_lists_from_seed_servers() // get list of active blockchain nodes from seed server
 
 /*
 * Start web socket server (Connection between SBC nodes)
