@@ -69,7 +69,7 @@ class Block {
         let { dificulty } = lastBlock
         dificulty = lastBlock.timestamp + MINE_RATE > currentTime ? dificulty + 1 : dificulty - 1
         
-        return PROFILE === 'dev' ? 1 :  dificulty
+        return PROFILE == 'prod' ? dificulty : 1; // return dificulty in prod , else 1
     }
 }
 

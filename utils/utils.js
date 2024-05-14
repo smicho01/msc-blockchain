@@ -1,5 +1,5 @@
 const { log } = require("./colours");
-const { CURRENT_WEBSOCKET, PEERS_REGISTRY, PROFILE, SEED_SERVERS } = require("../config");
+const { CURRENT_WEBSOCKET, PEERS_REGISTRY, PROFILE, SEED_SERVERS, CURRENT_SERVER } = require("../config");
 
 
 /**
@@ -10,7 +10,8 @@ function registerWithSeedServer() {
     log(`SELECTED SEED SERVER IS: ${selectedSeedServer}`)
     if (selectedSeedServer != undefined) {
 
-        fetch(`${selectedSeedServer}/blockchainnode/register?node=${CURRENT_WEBSOCKET}`, {
+        console.log("API ENDPOINT: ", CURRENT_SERVER);
+        fetch(`${selectedSeedServer}/blockchainnode/register?node=${CURRENT_WEBSOCKET}&apiurl=${CURRENT_SERVER}`, {
             method: "POST"
         }).then((response) => response.json())
 

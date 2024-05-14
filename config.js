@@ -21,12 +21,12 @@ const PEERS_REGISTRY = new PeersRegistry() // GLOBAL PEER REGISTRY
 // Seed servers for selected profiles
 let SEED_SERVERS = {
     "dev": [
-        'http://localhost:3030',
-        'http://localhost:3040'
+        'http://sever3d.synology.me:3030',
+        'http://sever3d.synology.me:3040'
     ],
     "prod": [
-        `http://13.40.42.210:3030`,
-        'http://13.40.4.5:3030'
+        'http://sever3d.synology.me:3030',
+        'http://sever3d.synology.me:3040'
     ]
 }
 

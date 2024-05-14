@@ -1,5 +1,6 @@
 const { log, LogsColours } = require('../utils/colours');
 const Block = require('./block');
+const {PROFILE} = require("../config");
 
 class Blockchain {
 
@@ -15,17 +16,20 @@ class Blockchain {
     }
 
     isValidChain(chain) {
+
+        //if(PROFILE == 'dev') { return true };
+
         if(JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())){
             log('invalid genesis block in isValidChain')
             return false
         }
 
-        for (let i=1; i<chain.length; i++) {
+        for (let i=1; i< chain.length; i++) {
             const block = chain[i]
             const lastBlock = chain[i-1]
 
             if(block.lastHash !== lastBlock.hash) {
-                //log(`block.lastHash !== lastBlock.hash ----- hashes doesn't match !`)
+                log(`block.lastHash !== lastBlock.hash ----- hashes doesn't match !`)
                 return false
             }
 
@@ -35,6 +39,7 @@ class Blockchain {
                 log(`a: ${block.hash}`);
                 log(`b: ${Block.blockHash(block)}`);
                 log(`--------------------------`)
+                log(`bloczek: ${block}`);
             } else {
                 log(`block.hash == Block.blockHash(block) ---- match !!!!`);
             }
