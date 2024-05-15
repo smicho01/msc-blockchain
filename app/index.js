@@ -105,9 +105,6 @@ app.get('/transaction', (req, res) => {
 
 app.post('/transaction', (req, res) => {
     const { recipient, amount, sender_pub, sender_priv, data } = req.body
-    if(data) {
-        console.log("MAM DATA: " , data)
-    }
     let transaction = null
     if (sender_pub && sender_priv) {
         //console.log(`Sender address is set`);
