@@ -37,18 +37,29 @@ app.get('/blockchain/blocks', (req, res) => {
     res.json(blockchain.chain)
 })
 
-app.get('/blockchain/transaction/:transactionId', (req, res) => {
-    const transactionId = req.params.transactionId
-    const foundTransaction = Blockchain.findTransaction(blockchain, transactionId)
+app.get('/blockchain/transaction/:transactionId', async (req, res) => {
+    try {
+        const transactionId = req.params.transactionId;
+        const foundTransaction = Blockchain.findTransaction(blockchain, transactionId);
+        if (!foundTransaction) {
+            throw new Error(`Transaction with id ${transactionId} not found.`);
+        }
+        res.status(200).send(foundTransaction);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+});
 
-    res.status(200).send(foundTransaction)
-})
-
-app.get('/blockchain/transaction/confirmation/:transactionId', (req, res) => {
-    const transactionId = req.params.transactionId
-    const foundTransactionConfirmations = Blockchain.getTransactionConfirmations(blockchain, transactionId)
-    res.status(200).send({ confirmations: foundTransactionConfirmations })
-})
+app.get('/blockchain/transaction/confirmation/:transactionId', async (req, res) => {
+    try {
+        const transactionId = req.params.transactionId;
+        const foundTransactionConfirmations = await Blockchain.getTransactionConfirmations(blockchain, transactionId);
+        res.status(200).send({ confirmations: foundTransactionConfirmations });
+    } catch(err) {
+        // Handle the error appropriately, for example:
+        res.status(500).send({ error: err.message });
+    }
+});
 
 app.post('/blockchain/tofile', (req, res) => {
     let fileName = `sevchain-backup-${Date.now()}.json`;
