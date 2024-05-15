@@ -20,14 +20,8 @@ const PEERS_REGISTRY = new PeersRegistry() // GLOBAL PEER REGISTRY
 
 // Seed servers for selected profiles
 let SEED_SERVERS = {
-    "dev": [
-        'http://sever3d.synology.me:3030',
-        'http://sever3d.synology.me:3040'
-    ],
-    "prod": [
-        'http://sever3d.synology.me:3030',
-        'http://sever3d.synology.me:3040'
-    ]
+    "dev": process.env.SEEDSERVERS_LIST ? process.env.SEEDSERVERS_LIST.split(',') : [],
+    "prod": process.env.SEEDSERVERS_LIST ? process.env.SEEDSERVERS_LIST.split(',') : []
 }
 
 module.exports = { 
