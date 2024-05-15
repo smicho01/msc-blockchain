@@ -38,23 +38,25 @@ class Wallet {
     }
 
     sign(dataHash) {
-        return this.keyPair.sign(dataHash)
+        return this.keyPair.sign(dataHash);
     }
 
     createTransaction(recipient, amount, blockchain, transactionPool, data, sender = null) {
-        // BELOW CLODE WAS USED TO ADD TRANSACTIONS TO POOL, but it was conflict when
+        // BELOW CODE WAS USED TO ADD TRANSACTIONS TO POOL, but it was conflict when
         // different nodes wanted to add its transaction to the same, not mined pool
         //
         // check if sender transaction exists in the pool already
-        // let transaction = transactionPool.existingTransaction(this.publicKey)
-        // if (transaction) {
-        //     transaction.update(this, recipient, amount)
-        // } else {
-        //     transaction = Transaction.newTransaction(this, recipient, amount)
-        //     transactionPool.updateOrAddTransaction(transaction)
-        // }
+        let transaction = transactionPool.existingTransaction(this.publicKey)
+        if (transaction) {
+            console.log("Transaction exists in pool. Updating transaction")
+            transaction.update(this, recipient, amount, data)
+        } else {
+            console.log("Transaction does not exists in pool. Creating new transaction")
+            transaction = Transaction.newTransaction(this, recipient, amount, data)
+            transactionPool.updateOrAddTransaction(transaction)
+        }
 
-        let transaction = null
+        //let transaction = null
 
         if (sender !== null) {
             sender.balance = Wallet.getBalance(blockchain, sender.publicKey)
@@ -87,7 +89,7 @@ class Wallet {
                 return 'insufficient funds'
             }
             // Each block will have jsut 1 transaction.
-            transaction = Transaction.newTransaction(this, recipient, amount, data)
+            //transaction = Transaction.newTransaction(this, recipient, amount, data)
             if (!Transaction.verifyTransaction(transaction)) {
                 log(`NOT VERIFIED: ${transaction.id}`, LogsColours.BgRed)
                 return 'not verified'

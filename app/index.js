@@ -5,7 +5,8 @@ require('dotenv/config')
 const fetch = require('cross-fetch')
 
 const { INITIAl_BALANCE, SEED_SERVERS, CURRENT_WEBSOCKET,
-    PEERS_REGISTRY, PROFILE, HTTP_PORT, CURRENT_SERVER } = require('../config')
+    PEERS_REGISTRY, PROFILE, HTTP_PORT, CURRENT_SERVER,
+    AUTOMINE_POOL_EVERY_SECONDS} = require('../config')
 
 const Blockchain = require('../blockchain/blockchain')
 const P2PServer = require('./p2p-server')
@@ -15,7 +16,8 @@ const TractionPool = require('../wallet/transaction-pool')
 const Miner = require('./miner')
 const { log, LogsColours } = require('../utils/colours')
 const { registerWithSeedServer } = require('../utils/utils')
-const { cronejob_get_peers_lists_from_seed_servers } = require('../utils/crone-jobs')
+const { cronejob_get_peers_lists_from_seed_servers,
+    cronejob_mine_pool_transactions } = require('../utils/crone-jobs')
 const Transaction = require('../wallet/transaction')
 
 const app = express()
@@ -123,9 +125,9 @@ app.post('/transaction', (req, res) => {
     }
 
     p2pServer.broadcastTransaction(transaction)
-    const response = miner.mine(true) // force automine transaction
+    //const response = miner.mine(true) // force automine transaction
     res.status(200).send({
-        "message": response.message,
+        "message": "transaction added to pool", //response.message,
         "transaction": transaction
     })
 
@@ -145,7 +147,6 @@ app.get('/node/wallet/balance', (req, res) => {
 // Mine transactions pool valid transactions to blockchain an earns reward
 app.post('/node/mine-transactions', (req, res) => {
     const response = miner.mine();
-
     res.status(response.code).send(response)
 })
 
@@ -194,7 +195,7 @@ log(`Selected profile: ${PROFILE}`)
 
 registerWithSeedServer() // auto-register with known seed servers
 cronejob_get_peers_lists_from_seed_servers() // get list of active blockchain nodes from seed server
-
+cronejob_mine_pool_transactions(miner, AUTOMINE_POOL_EVERY_SECONDS);
 /*
 * Start web socket server (Connection between SBC nodes)
 */

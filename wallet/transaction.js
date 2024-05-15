@@ -7,6 +7,7 @@ class Transaction {
 
     constructor(){
         this.id = ChainUtils.id()
+        console.log("New transaction id: ", this.id)
         this.input = null
         this.output = []
         this.transactionData = new TransactionData();
@@ -14,11 +15,11 @@ class Transaction {
 
     update(senderWallet, recipient, amount, data) {
         const senderOutput = this.output.find(output => output.address === senderWallet.publicKey)
-        this.transactionData = new TransactionData(data)
+        //this.transactionData = new TransactionData(data)
         // Check case if sender want to send some amount in short time after previous transaction
         // and may not have enough balance (preventing double spend problem)
         if(amount > senderOutput.amount) {
-            console.log(`Amout: ${amount} is higher than balance!`)
+            console.log(`Amout: ${amount} is higher than balance!`);
             return;
         }
 
@@ -39,9 +40,9 @@ class Transaction {
     }
 
     static newTransaction(senderWallet, recipient, amount, data) {
-        this.transactionData = new TransactionData(data)
+        //this.transactionData = new TransactionData(data)
         if(amount > senderWallet.balance) {
-            console.log(`Amount: ${amount} bigger than a wallet balance!`)
+            console.log(`Amount: ${amount} bigger than a wallet balance!`);
             return
         }
         return Transaction.transactionWithOutputs(senderWallet,[

@@ -2,6 +2,7 @@ const Transaction = require("../wallet/transaction")
 const Wallet = require("../wallet/wallet")
 const { MIN_NUM_TRANSACTIONS_TO_MINE, MINE_RATE } = require('../config')
 const ResponseMessage = require('./ResponseMessage')
+const {log} = require("../utils/colours");
 
 class Miner {
 
@@ -16,25 +17,25 @@ class Miner {
         const validTransactions = this.transactionPool.validTransactions()
         if (validTransactions.length == 0) {
             let errorMsg = `Won't mine. Zero transactions in pool`
-            console.log(errorMsg)
+            log(errorMsg)
             return new ResponseMessage(errorMsg);
         }
 
-        // If not force: will mine pool juts 
-        if (!force) {
-
-            if (validTransactions.length < MIN_NUM_TRANSACTIONS_TO_MINE) {
-                // Mine block if pool age reach minimum treshlod 
-                let mins = Date.now() - this.transactionPool.poolCreationTime
-                if (mins >= MINE_RATE) {
-                    console.log(`Mine with low num transaction in block: ${validTransactions.length} transaction(s)`)
-                } else {
-                    const errorMsg = `Won't mine block. Not enough transactions in block, (min ${MIN_NUM_TRANSACTIONS_TO_MINE}, current ${validTransactions.length})`
-                    console.log(errorMsg)
-                    return new ResponseMessage(errorMsg);
-                }
-            }
-        }
+        // // If not force: will mine pool using mine_rate it is: will wait certain time to mine pool transaction
+        // if (!force) {
+        //
+        //     if (validTransactions.length < MIN_NUM_TRANSACTIONS_TO_MINE) {
+        //         // Mine block if pool age reach minimum threshold
+        //         let mins = Date.now() - this.transactionPool.poolCreationTime
+        //         if (mins >= MINE_RATE) {
+        //             console.log(`Mine with low num transaction in block: ${validTransactions.length} transaction(s)`)
+        //         } else {
+        //             const errorMsg = `Won't mine block. Not enough transactions in block, (min ${MIN_NUM_TRANSACTIONS_TO_MINE}, current ${validTransactions.length})`
+        //             console.log(errorMsg)
+        //             return new ResponseMessage(errorMsg);
+        //         }
+        //     }
+        // }
 
         // include reward for the miner
         validTransactions.push(Transaction.rewardTransaction(this.wallet, Wallet.blockchainWallet()))
