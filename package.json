@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "cron": "^3.1.6",
     "cross-fetch": "^4.0.0",
     "crypto-js": "^4.2.0",

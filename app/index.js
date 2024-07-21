@@ -17,9 +17,11 @@ const { log, LogsColours } = require('../utils/colours')
 const { registerWithSeedServer } = require('../utils/utils')
 const { cronejob_get_peers_lists_from_seed_servers } = require('../utils/crone-jobs')
 const Transaction = require('../wallet/transaction')
+const cors = require('cors');
 
 const app = express()
 app.use(bodyParser.json())
+app.use(cors());
 
 /* Perform basic inits for the Node */
 const blockchain = new Blockchain()
@@ -166,6 +168,14 @@ app.get('/wallet/balance/:walletAddress', (req, res) => {
     const searchWalletBalance = Wallet.getBalance(blockchain, walletAddress)
     console.log(`Found balance for wallet: ${searchWalletBalance}`);
     res.json({ publicKey: wallet.publicKey, balance: searchWalletBalance })
+})
+
+app.get('/wallet/transactions/:walletAddress', (req, res) => {
+    const walletAddress = req.params.walletAddress
+    console.log(`Find transactions for wallet: ${walletAddress}`)
+    const walletTransactions = Wallet.getWalletTransactions(blockchain, walletAddress)
+    console.log(`Found transactions for wallet: ${walletTransactions.size}`);
+    res.json({ publicKey: wallet.publicKey, transactions: walletTransactions })
 })
 
 app.get('/wallet/create', (req, res) => {

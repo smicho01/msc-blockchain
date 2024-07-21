@@ -14,7 +14,6 @@ class Wallet {
             console.log('Recreating wallet from stored keys')
             this.keyPair = ChainUtils.createKeyPairFromStringKeys(publicKeyString, privateKeyString)
             // TODO: if wallet exists , set the wallet balance by scanning all blockchain transactions
-
         }
         this.publicKey = this.keyPair.getPublic().encode('hex'); // get the public kye but as hex   
     }
@@ -184,6 +183,30 @@ class Wallet {
         }
 
         return balance
+    }
+
+    static getWalletTransactions(blockchain, walletAddress) {
+        console.log('Getting wallet transactions ...')
+
+        let transactions = []
+        blockchain.chain.forEach(block => block.data.forEach(t => {
+            if(t.input.address === walletAddress) {
+                // Input transaction [balance extraction]
+                console.log("GOT INPUT !", t.id, " amount: ", t.output[1].amount)
+                transactions.push({...t, type: 'INPUT' })
+            }
+
+            if(t.output.length > 1){
+                if(t.output[1].address === walletAddress) {
+                    // Output transaction [balance addition]
+                    console.log("GOT OUTPUT !", t.id, " amount: ", t.output[1].amount)
+                    transactions.push({...t, type: 'OUTPUT' })
+                }
+            }
+
+        }))
+
+        return transactions
     }
 
     static blockchainWallet() {
