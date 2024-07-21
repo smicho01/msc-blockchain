@@ -193,14 +193,14 @@ class Wallet {
             if(t.input.address === walletAddress) {
                 // Input transaction [balance extraction]
                 console.log("GOT INPUT !", t.id, " amount: ", t.output[1].amount)
-                transactions.push({...t, type: 'INPUT' })
+                transactions.push({id: t.id, amount: t.output[1].amount , type: 'INPUT' })
             }
 
             if(t.output.length > 1){
                 if(t.output[1].address === walletAddress) {
                     // Output transaction [balance addition]
                     console.log("GOT OUTPUT !", t.id, " amount: ", t.output[1].amount)
-                    transactions.push({...t, type: 'OUTPUT' })
+                    transactions.push({id: t.id, amount: t.output[1].amount , type: 'OUTPUT' })
                 }
             }
 

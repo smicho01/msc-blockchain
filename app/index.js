@@ -175,7 +175,7 @@ app.get('/wallet/transactions/:walletAddress', (req, res) => {
     console.log(`Find transactions for wallet: ${walletAddress}`)
     const walletTransactions = Wallet.getWalletTransactions(blockchain, walletAddress)
     console.log(`Found transactions for wallet: ${walletTransactions.size}`);
-    res.json({ publicKey: wallet.publicKey, transactions: walletTransactions })
+    res.json(walletTransactions )
 })
 
 app.get('/wallet/create', (req, res) => {
