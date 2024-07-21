@@ -131,60 +131,6 @@ class Wallet {
         return balance
     }
 
-    // Get balance for any walleta address
-    // static getBalance(blockchain, walletAddress) {
-    //     console.log('Getting balance ...')
-    //     let balance = 0
-    //
-    //     let transactions = []
-    //     blockchain.chain.forEach(block => block.data.forEach(transaction => {
-    //         transactions.push(transaction)
-    //     }))
-    //
-    //     const walletInputTransactions =
-    //         transactions.filter(transaction => transaction.input.address === walletAddress)
-    //
-    //     const walletOutputTransactions =
-    //         transactions.filter(transaction => {
-    //             transactions.filter(transaction => transaction.input.address === walletAddress)
-    //             return transaction.output.filter(t => t.address === walletAddress)
-    //         })
-    //
-    //     let startTime = 0
-    //
-    //     if (walletInputTransactions.length > 0) {
-    //         const recentInputTransactions = walletInputTransactions.reduce(
-    //             (prev, current) => prev.input.timestamp > current.input.timestamp ? prev : current
-    //         )
-    //         balance = recentInputTransactions.output.find(output => output.address === walletAddress).amount
-    //         startTime = recentInputTransactions.input.timestamp
-    //
-    //         transactions.forEach(transaction => {
-    //             if (transaction.input.timestamp > startTime) {
-    //                 transaction.output.find(output => {
-    //                     if (output.address === this.publicKey) {
-    //                         balance += output.amount
-    //                     }
-    //                 })
-    //             }
-    //         })
-    //
-    //     } else {
-    //         console.log(`Don't have any input transactions from wallet`);
-    //         transactions.forEach(transaction => {
-    //
-    //             transaction.output.find(output => {
-    //                 if (output.address === walletAddress) {
-    //                     balance += output.amount
-    //                 }
-    //             })
-    //
-    //         })
-    //     }
-    //
-    //     return balance
-    // }
-
     static getBalance(blockchain, walletAddress) {
 
         const transactions = this.getWalletTransactions(blockchain, walletAddress)
