@@ -7,6 +7,8 @@ on:
 
 jobs:
   semver_push_dockerhub:
+    permissions:
+      contents: write
     name: Semver repo tagging
     if: |
       github.event.pull_request.merged == true &&
@@ -15,9 +17,8 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
-      
-      
-      ##### Semanically tag repository and return given tag
+
+      ##### Semantically tag repository and return given tag
       # Label can be : major,minor,patch or skip-release
       - name: Parse the SemVer label (semver)
         id: label
@@ -40,4 +41,12 @@ jobs:
           tag: ${{ steps.calculate.outputs.version }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           move_major_tag: ${{ inputs.moveMajor || 'true' }}
+
+  publish-semver:
+    uses: UKHomeOffice/sas-github-workflows/.github/workflows/semver-tag-docker-npm.yml@v2
+    with:
+      installCommand: 'ci --production=false --no-optional'
+      buildCommand: 'build-prod'
+      image: 'quay.io/ukhomeofficedigital/hocs-frontend'
+    secrets: inherit
   
