@@ -45,12 +45,12 @@ jobs:
       - name: Publish image to Docker
         uses: UKHomeOffice/sas-github-workflows/.github/actions/docker-publish@v2
         with:
-          registry: docker.io/sever3d
+          registry: docker.io
           username: ${{ secrets.DOCKER_USER_NAME || secrets.QUAY_ROBOT_USER_NAME }}
           password: ${{ secrets.DOCKER_PASSWORD || secrets.QUAY_ROBOT_TOKEN }}
           tag: ${{ steps.calculate.outputs.version }}
           tag_latest: ${{ github.base_ref == 'master' }}
-          image: blockchain
+          image: sever3d/blockchain
 
 
   
