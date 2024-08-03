@@ -4,7 +4,6 @@ on:
   pull_request:
     types: [ closed ]
 
-
 jobs:
   semver_push_dockerhub:
     permissions:
@@ -43,11 +42,16 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           move_major_tag: ${{ inputs.moveMajor || 'true' }}
 
-  publish-semver:
-    uses: UKHomeOffice/sas-github-workflows/.github/workflows/semver-tag-docker-npm.yml@v2
-    with:
-      installCommand: 'ci --production=false --no-optional'
-      buildCommand: 'build-prod'
-      image: 'quay.io/ukhomeofficedigital/hocs-frontend'
-    secrets: inherit
+      - name: Publish image to Docker
+        uses: UKHomeOffice/sas-github-workflows/.github/actions/docker-publish@v2
+        if: inputs.ecr == false
+        with:
+          registry: ${{ inputs.registry }}
+          username: ${{ secrets.DOCKER_USER_NAME || secrets.QUAY_ROBOT_USER_NAME }}
+          password: ${{ secrets.DOCKER_PASSWORD || secrets.QUAY_ROBOT_TOKEN }}
+          tag: ${{ steps.calculate.outputs.version }}
+          tag_latest: ${{ github.base_ref == 'master' }}
+          image: ${{ inputs.image }}
+
+
   
