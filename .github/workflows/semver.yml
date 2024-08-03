@@ -1,4 +1,4 @@
-name: Publish DockerHub deploy GCP K8S
+name: Publish DockerHub
 
 on:
   pull_request:
