@@ -39,6 +39,3 @@ jobs:
             docker.io/sever3d/blockchain:${{ env.TAG }}
             docker.io/sever3d/blockchain:latest-branch
           platforms: linux/amd64,linux/arm64
-          build-args: |
-            ARG1=value1
-            ARG2=value2
