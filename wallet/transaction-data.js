@@ -15,7 +15,6 @@ class TransactionData {
             this.base64DataSring = '';
             log('Not a base64 string')
         }
-
     }
 
     isBase64String(testedString) {

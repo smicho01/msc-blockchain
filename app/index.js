@@ -112,9 +112,10 @@ app.post('/transaction', (req, res) => {
         //console.log(`Sender address is set`);
         const senderWallet = new Wallet(sender_pub, sender_priv)
         transaction = wallet.createTransaction(recipient, amount, blockchain, tp, data, senderWallet)
+        console.log("Created transaction with both wallet keys with value of: " + amount + " to wallet: " + recipient)
     } else {
-        //console.log(`Sender adddress unset.`);
         transaction = wallet.createTransaction(recipient, amount, blockchain, tp, data)
+        console.log("Created transaction with value of: " + amount + " to wallet : " + recipient)
     }
 
     if (!(transaction instanceof Transaction)) {

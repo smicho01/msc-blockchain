@@ -132,9 +132,8 @@ class Wallet {
     }
 
     static getBalance(blockchain, walletAddress) {
-
+        console.log("getBalance for wallet " + walletAddress)
         const transactions = this.getWalletTransactions(blockchain, walletAddress)
-
         let balance = 0;
         transactions.forEach(t => {
             if(t.type === 'OUTPUT') {
@@ -149,7 +148,6 @@ class Wallet {
 
     static getWalletTransactions(blockchain, walletAddress) {
         console.log('Getting wallet transactions ...')
-
         let transactions = []
         blockchain.chain.forEach(block => block.data.forEach(t => {
             if(t.input.address === walletAddress) {
@@ -173,7 +171,6 @@ class Wallet {
 
     static blockchainWallet() {
         const blockchainWallet = new this()
-        //blockchainWallet.address = 'sev-blockchain-wallet'
         return blockchainWallet
     }
 
