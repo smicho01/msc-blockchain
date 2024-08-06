@@ -30,6 +30,10 @@ class Transaction {
         return this
     }
 
+    getId() {
+        return this.id;
+    }
+
     static transactionWithOutputs(senderWallet, outputs, data) {
         const transaction = new this()
         transaction.transactionData = new TransactionData(data)
