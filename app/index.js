@@ -36,12 +36,15 @@ const miner = new Miner(blockchain, tp, wallet, p2pServer)
 /* ============= BLOCKCHAIN ROUTES ============ */
 
 app.get('/blockchain/blocks', (req, res) => {
+    console.log('[GET] /blockchain/blocks')
     res.json(blockchain.chain)
 })
 
 app.get('/blockchain/transaction/:transactionId', async (req, res) => {
+    console.log('[GET] /blockchain/transaction/:transactionId')
     try {
         const transactionId = req.params.transactionId;
+        console.log('Transaction id: ' + transactionId)
         const foundTransaction = Blockchain.findTransaction(blockchain, transactionId);
         if (!foundTransaction) {
             throw new Error(`Transaction with id ${transactionId} not found.`);
@@ -53,8 +56,10 @@ app.get('/blockchain/transaction/:transactionId', async (req, res) => {
 });
 
 app.get('/blockchain/transaction/confirmation/:transactionId', async (req, res) => {
+    console.log('[GET] /blockchain/transaction/confirmation/:transactionId')
     try {
         const transactionId = req.params.transactionId;
+        console.log('Transaction id: ' + transactionId)
         const foundTransactionConfirmations = await Blockchain.getTransactionConfirmations(blockchain, transactionId);
         res.status(200).send({ confirmations: foundTransactionConfirmations });
     } catch(err) {
@@ -64,6 +69,7 @@ app.get('/blockchain/transaction/confirmation/:transactionId', async (req, res) 
 });
 
 app.post('/blockchain/tofile', (req, res) => {
+    console.log('[POST] /blockchain/tofile')
     let fileName = `sevchain-backup-${Date.now()}.json`;
     var fs = require('fs');
     fs.writeFile(`backups/${fileName}`, JSON.stringify(blockchain), 'utf8', () => {
@@ -90,6 +96,7 @@ app.post('/blockchain/tofile', (req, res) => {
 /* ============= TRANSACTION ROUTES ============ */
 
 app.get('/transaction', (req, res) => {
+    console.log('[GET] /transaction')
     res.json(tp.transactions)
 })
 
@@ -106,6 +113,7 @@ app.get('/transaction', (req, res) => {
  */
 
 app.post('/transaction', (req, res) => {
+    console.log('[POST] /transaction')
     const { recipient, amount, sender_pub, sender_priv, data } = req.body
     let transaction = null
     if (sender_pub && sender_priv) {
@@ -138,32 +146,41 @@ app.post('/transaction', (req, res) => {
 /* ============= NODE ROUTES ============ */
 
 app.get('/node/wallet/public-key', (req, res) => {
+    console.log('/node/wallet/public-key')
     res.json({ publicKey: wallet.publicKey })
 })
 
 app.get('/node/wallet/balance', (req, res) => {
+    console.log('[GET] /node/wallet/balance')
     res.json({ publicKey: wallet.publicKey, balance: wallet.balance })
 })
 
 // Mine transactions pool valid transactions to blockchain an earns reward
 app.post('/node/mine-transactions', (req, res) => {
+    console.log('[POST] /node/mine-transactions')
     const response = miner.mine();
-
     res.status(response.code).send(response)
 })
 
 app.get('/node/healthcheck', (req, res) => {
+    console.log('[GET] /node/healthcheck')
     res.status(200).send({"message": "healthy"})
 })
 
 app.get('/node/registerednodes', (req, res) => {
+    console.log('[GET] /node/registerednodes')
     res.status(200).send(PEERS_REGISTRY.getPeers())
 })
 
+app.get('/node/registeredseedservers', (req, res) => {
+    console.log('[GET] /node/registeredseedservers')
+    res.status(200).send(SEED_SERVERS)
+})
 
 /* ============= WALLET ROUTES ============ */
 
 app.get('/wallet/balance/:walletAddress', (req, res) => {
+    console.log('[GET] /wallet/balance/:walletAddress')
     const walletAddress = req.params.walletAddress
     console.log(`Find balance for wallet: ${walletAddress}`)
     const searchWalletBalance = Wallet.getBalance(blockchain, walletAddress)
@@ -172,6 +189,7 @@ app.get('/wallet/balance/:walletAddress', (req, res) => {
 })
 
 app.get('/wallet/transactions/:walletAddress', (req, res) => {
+    console.log('[GET] /wallet/transactions/:walletAddress')
     const walletAddress = req.params.walletAddress
     console.log(`Find transactions for wallet: ${walletAddress}`)
     const walletTransactions = Wallet.getWalletTransactions(blockchain, walletAddress)
@@ -180,6 +198,7 @@ app.get('/wallet/transactions/:walletAddress', (req, res) => {
 })
 
 app.get('/wallet/create', (req, res) => {
+    console.log('[GET] /wallet/create')
     const newWallet = new Wallet();
     const puKey = newWallet.getPublicKeyAsHexString();
     const prKey = newWallet.getPrivateKeyAsHexString();
@@ -189,7 +208,7 @@ app.get('/wallet/create', (req, res) => {
     p2pServer.broadcastTransaction(transaction)
 
     const response = miner.mine(true); // force mine as wallet got starring balance
-
+    console.log('Block mind after creating wallet. Transaction: ' + transaction.getId())
     res.json({
         publicKey: puKey,
         privateKey: prKey,
