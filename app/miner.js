@@ -14,17 +14,17 @@ class Miner {
 
     mine(force = false) {
         const validTransactions = this.transactionPool.validTransactions()
-        if (validTransactions.length == 0) {
+        if (validTransactions.length === 0) {
             let errorMsg = `Won't mine. Zero transactions in pool`
             console.log(errorMsg)
             return new ResponseMessage(errorMsg);
         }
 
-        // If not force: will mine pool juts 
+        // If not force: will mine pool if there is sufficient transactions in pool
         if (!force) {
 
             if (validTransactions.length < MIN_NUM_TRANSACTIONS_TO_MINE) {
-                // Mine block if pool age reach minimum treshlod 
+                // Mine block if pool age reach minimum threshold
                 let mins = Date.now() - this.transactionPool.poolCreationTime
                 if (mins >= MINE_RATE) {
                     console.log(`Mine with low num transaction in block: ${validTransactions.length} transaction(s)`)
@@ -50,11 +50,12 @@ class Miner {
         // clear the transaction pool
         this.transactionPool.clear()
 
-        // broadcast to every mniner to clear their transaction pools
+        // broadcast to every miner to clear their transaction pools
         this.p2pServer.broadcastClearPoolTransactions()
 
         this.transactionPool.poolCreationTime = Date.now()
 
+        console.log("Block mined")
         return new ResponseMessage(`Block mined.`, 200, block)
     }
 

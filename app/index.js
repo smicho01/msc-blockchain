@@ -63,29 +63,6 @@ app.get('/blockchain/transaction/confirmation/:transactionId', async (req, res) 
     }
 });
 
-app.post('/blockchain/tofile', (req, res) => {
-    let fileName = `sevchain-backup-${Date.now()}.json`;
-    var fs = require('fs');
-    fs.writeFile(`backups/${fileName}`, JSON.stringify(blockchain), 'utf8', () => {
-
-    });
-    res.status(200).send({ message: `saved to file ${fileName}` })
-})
-
-// app.get('/blockchain/fromfile', (req, res) => {
-//     let fileName = 'sevchain-backup.json';
-
-//     fs.readFile(`backups/${fileName}`, 'utf8', function readFileCallback(err, data) {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             blockchain = JSON.parse(data); //now it an object
-//         }
-//     });
-
-//     res.status(200).send({ message: `saved to file ${fileName}` })
-// })
-
 
 /* ============= TRANSACTION ROUTES ============ */
 
@@ -94,15 +71,19 @@ app.get('/transaction', (req, res) => {
 })
 
 /**
+ * Creates new transaction
+ *
  *  Example request json body.
- *  If sent `sender_pub` and `sender_priv` It will set this wallet as a sender wallet. If those 2 are not available, it will set
- *  node wallet as sender wallet. 
-{
-    "sender_pub": "041ff135ccbd5f023a81a411a2dbaa21cd06d23e6565e003d4c1f6d2a66e735c1cd2ddd358023a17d5efbc0b0496906531abe9fac70a5179246695dc40edb8e8b6ef",
-    "sender_priv": "315cd1fcb38e8f89aa7438d62537469c05e592bf3c174ccb35ff9a26220a34fa",
-    "recipient": "04fa71fa3923fe21bb81b9a169f567cc8ee2f8b19bd74275854382b3b2a9c717c35d0c7888a71a5d3f54c9b6be63b8e54615e8b2b259df413ef93e170564e71653b",
-    "amount": 45
-}
+ *  If sent `sender_pub` and `sender_priv` It will set this wallet as a sender wallet.
+ *  If those `sender_pub` and `sender_priv` are not available, it will set node wallet as sender wallet.
+ *
+ * @example
+ * {
+ * "sender_pub": "041ff135ccbd5f023a81a411a2dbaa21cd06d23e6565e003d4c1f6d2a66e735c1cd2ddd358023a17d5efbc0b0496906531abe9fac70a5179246695dc40edb8e8b6ef",
+ * "sender_priv": "315cd1fcb38e8f89aa7438d62537469c05e592bf3c174ccb35ff9a26220a34fa",
+ * "recipient": "04fa71fa3923fe21bb81b9a169f567cc8ee2f8b19bd74275854382b3b2a9c717c35d0c7888a71a5d3f54c9b6be63b8e54615e8b2b259df413ef93e170564e71653b",
+ * "amount": 45
+ * }
  */
 
 app.post('/transaction', (req, res) => {
@@ -119,14 +100,22 @@ app.post('/transaction', (req, res) => {
     }
 
     if (!(transaction instanceof Transaction)) {
-        console.log(`Can't create transaction`);
+        console.log(`Can't create transaction. Not an instance of Transaction`);
         return res.status(400).send({
             "message": transaction
         })
     }
 
-    p2pServer.broadcastTransaction(transaction)
-    const response = miner.mine(true) // force automine transaction
+    try {
+        p2pServer.broadcastTransaction(transaction)
+    } catch (error) {
+        console.log("[POST] /transaction | Error while broadcasting transaction")
+    }
+    try {
+        const response = miner.mine(true) // auto-mine transaction
+    } catch (error) {
+        console.log("[POST] /transaction | Error while mining transaction to blockchain")
+    }
     res.status(200).send({
         "message": response.message,
         "transaction": transaction
