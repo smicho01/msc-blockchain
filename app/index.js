@@ -19,9 +19,16 @@ const { cronejob_get_peers_lists_from_seed_servers } = require('../utils/crone-j
 const Transaction = require('../wallet/transaction')
 const cors = require('cors');
 
+const { swaggerUi, swaggerDocs } = require('../swagger'); // Import swagger config
+
+
+
 const app = express()
 app.use(bodyParser.json())
 app.use(cors());
+
+// Serve Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 /* Perform basic inits for the Node */
 const blockchain = new Blockchain()
@@ -34,12 +41,39 @@ const miner = new Miner(blockchain, tp, wallet, p2pServer)
 
 
 /* ============= BLOCKCHAIN ROUTES ============ */
-
+/**
+ * @swagger
+ * /blockchain/blocks:
+ *   get:
+ *     summary: Retrieve blockchain
+ *     description: Retrieve entire blockchain
+ *     responses:
+ *       200:
+ *         description: Get entire blockchain.
+ */
 app.get('/blockchain/blocks', (req, res) => {
     console.log('[GET] /blockchain/blocks')
     res.json(blockchain.chain)
 })
 
+/**
+ * @swagger
+ * /blockchain/transaction/:transactionId:
+ *   get:
+ *     summary: Retrieve transaction
+ *     description: Retrieve specific transaction
+ *     parameters:
+ *       - in: path
+ *         name: transactionId
+ *         required: true
+ *         description: The ID of the transaction to retrieve
+ *         schema:
+ *           type: string
+ *           example: "12345abc"
+ *     responses:
+ *       200:
+ *         description: Get transaction.
+ */
 app.get('/blockchain/transaction/:transactionId', async (req, res) => {
     console.log('[GET] /blockchain/transaction/:transactionId')
     try {
@@ -78,19 +112,19 @@ app.post('/blockchain/tofile', (req, res) => {
     res.status(200).send({ message: `saved to file ${fileName}` })
 })
 
-// app.get('/blockchain/fromfile', (req, res) => {
-//     let fileName = 'sevchain-backup.json';
+app.get('/blockchain/fromfile', (req, res) => {
+    let fileName = 'sevchain-backup.json';
 
-//     fs.readFile(`backups/${fileName}`, 'utf8', function readFileCallback(err, data) {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             blockchain = JSON.parse(data); //now it an object
-//         }
-//     });
+    fs.readFile(`backups/${fileName}`, 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            blockchain = JSON.parse(data); //now it an object
+        }
+    });
 
-//     res.status(200).send({ message: `saved to file ${fileName}` })
-// })
+    res.status(200).send({ message: `saved to file ${fileName}` })
+})
 
 
 /* ============= TRANSACTION ROUTES ============ */
