@@ -10,7 +10,6 @@ class Block {
         this.data = data
         this.nonce = nonce;
         this.dificulty = dificulty || DIFICULTY
-
         this.blockNumberInChain = blockNumberInChain || 1
     }
 
@@ -36,9 +35,11 @@ class Block {
         do {
             nonce++ // noce is changing to generate new hash with DIFICILTY number of leading Zeros
             timestamp = Date.now()
-            dificulty = Block.adjustDificulty(lastBlock, timestamp) // need timestamp to calculate how long it takes to find nonce
+            // need timestamp to calculate how long it takes to find nonce
+            dificulty = Block.adjustDificulty(lastBlock, timestamp) 
             hash = Block.hash(timestamp, lastHash, data, nonce, dificulty)
-        } while(hash.substring(0, dificulty) !== '0'.repeat(dificulty)) // loop untill hash has DIFICILTY num. of leading '0' in hash
+            // loop untill hash has DIFICILTY num. of leading '0' in hash
+        } while(hash.substring(0, dificulty) !== '0'.repeat(dificulty)) 
         console.log(`Found block nonce: ${nonce}`)
 
         let thisBlockNumberInChain = lastBlock.blockNumberInChain + 1

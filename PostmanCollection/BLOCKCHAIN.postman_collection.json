@@ -1,0 +1,897 @@
+{
+	"info": {
+		"_postman_id": "837c1dbd-af05-4dd9-ad5d-3dab0c5f9afa",
+		"name": "BLOCKCHAIN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11729080",
+		"_collection_link": "https://speeding-water-207383.postman.co/workspace/MASTERS-PROJECT~2f8dc211-cf07-4f2d-ac3d-829d50562c5b/collection/11729080-837c1dbd-af05-4dd9-ad5d-3dab0c5f9afa?action=share&source=collection_link&creator=11729080"
+	},
+	"item": [
+		{
+			"name": "TestNodes",
+			"item": [
+				{
+					"name": "Get Blocks - TEST NODE 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/blockchain/blocks",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"blockchain",
+								"blocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blocks - TEST NODE 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST2}}/blockchain/blocks",
+							"host": [
+								"{{BLOCKCHAIN_HOST2}}"
+							],
+							"path": [
+								"blockchain",
+								"blocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blocks - TEST NODE 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}:3003/blockchain/blocks",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3003",
+							"path": [
+								"blockchain",
+								"blocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get pool - NODE 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}:3002/transaction",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3002",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get pool - NODE 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}:3003/transaction",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3003",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List registered nodes NODE 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/node/registerednodes",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"node",
+								"registerednodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List registered nodes NODE 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST2}}/node/registerednodes",
+							"host": [
+								"{{BLOCKCHAIN_HOST2}}"
+							],
+							"path": [
+								"node",
+								"registerednodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List registered nodes NODE 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3003/node/registerednodes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"node",
+								"registerednodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add transaction - NODE 1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"foo-4rd-12abcd1efa\",\n    \"amount\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}:3001/transaction",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3001",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add transaction - NODE 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"foo-4rd-12abc-02\",\n    \"amount\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}:3002/transaction",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3002",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add transaction - NODE 3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"foo-4rd-12abcd1e-03\",\n    \"amount\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}:3003/transaction",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3003",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add transaction - NODE 3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"foo-4rd-12abcd1efa\",\n    \"amount\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}:3003/transaction",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3003",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mine transactions - NODE 1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}:3001/node/mine-transactions",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3001",
+							"path": [
+								"node",
+								"mine-transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mine transactions - NODE 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}:3003/node/mine-transactions",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3003",
+							"path": [
+								"node",
+								"mine-transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mine transactions - NODE 3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}:3003/node/mine-transactions",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "3003",
+							"path": [
+								"node",
+								"mine-transactions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wallet",
+			"item": [
+				{
+					"name": "Create Wallet",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "super-secret-key",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/wallet/create",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"wallet",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get wallet balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "super-secret-key",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/wallet/balance/042eea5d050fee6ccb32ef711b0905420b31438215b11c690e8f851bd3cbe4b03c4fa47c6b46382a069f195a01e7dd48bd36b1c6e31b960523e9d33ba6ec896389",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"wallet",
+								"balance",
+								"042eea5d050fee6ccb32ef711b0905420b31438215b11c690e8f851bd3cbe4b03c4fa47c6b46382a069f195a01e7dd48bd36b1c6e31b960523e9d33ba6ec896389"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get wallet balance Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "super-secret-key",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/wallet/balance/043a02b67bbd43ab919dd375fbace3ae63df5f9fbb376a146eb245c701fb297650e6fc0030ea8e527cb28ecb047c1005b0715f69b4c68eba1df5b61adc99482f80",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"wallet",
+								"balance",
+								"043a02b67bbd43ab919dd375fbace3ae63df5f9fbb376a146eb245c701fb297650e6fc0030ea8e527cb28ecb047c1005b0715f69b4c68eba1df5b61adc99482f80"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get wallet transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/wallet/transactions/04d47a999f3b05db0cbc5f29a130f046d52e1a3d6b81de31069ee19bb4cbd33563ec4ea9062a87e1a4a6c3e411a77658cf531ed13e890c531d5dec56587bbad03f",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"wallet",
+								"transactions",
+								"04d47a999f3b05db0cbc5f29a130f046d52e1a3d6b81de31069ee19bb4cbd33563ec4ea9062a87e1a4a6c3e411a77658cf531ed13e890c531d5dec56587bbad03f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get wallet transactions wallet 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/wallet/transactions/04fa71fa391fe21bb81b9a169f567cc8ee2f8b19bd74275854382b3b2a9c717c35d0c7888a71a5d3f54c9b6be63b8e54615e8b2b259df413ef93e170564e71653b",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"wallet",
+								"transactions",
+								"04fa71fa391fe21bb81b9a169f567cc8ee2f8b19bd74275854382b3b2a9c717c35d0c7888a71a5d3f54c9b6be63b8e54615e8b2b259df413ef93e170564e71653b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blockchain",
+			"item": [
+				{
+					"name": "Find transaction",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/blockchain/transaction/3ca88581-cc79-4573-bc03-ce32471e143e",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"blockchain",
+								"transaction",
+								"3ca88581-cc79-4573-bc03-ce32471e143e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get transaction confirmations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/blockchain/transaction/confirmation/3ca88581-cc79-4573-bc03-ce32471e143e",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"blockchain",
+								"transaction",
+								"confirmation",
+								"3ca88581-cc79-4573-bc03-ce32471e143e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blocks N1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/blockchain/blocks",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"blockchain",
+								"blocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blocks N2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST2}}/blockchain/blocks",
+							"host": [
+								"{{BLOCKCHAIN_HOST2}}"
+							],
+							"path": [
+								"blockchain",
+								"blocks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Get pool transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/transaction",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add transaction to pool NODE 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "super-secret-key",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"042eea5d050fee6ccb32ef711b0905420b31438215b11c690e8f851bd3cbe4b03c4fa47c6b46382a069f195a01e7dd48bd36b1c6e31b960523e9d33ba6ec896389\",\n    \"amount\": 8,\n    \"data\": \"eyAibWVzc2FnZSI6ICJTb21lIG1lc3NhZ2UgdGV4dCIsICJhdXRob3IiOiAiQWRhbSBTbWl0aCJ9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/transaction",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add transaction to pool NODE 1 Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "super-secret-key",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"043a02b67bbd43ab919dd375fbace3ae63df5f9fbb376a146eb245c701fb297650e6fc0030ea8e527cb28ecb047c1005b0715f69b4c68eba1df5b61adc99482f80\",\n    \"amount\": 50,\n    \"data\": \"eyAibWVzc2FnZSI6ICJTb21lIG1lc3NhZ2UgdGV4dCIsICJhdXRob3IiOiAiQWRhbSBTbWl0aCJ9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/transaction",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add transaction to pool NODE 2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "super-secret-key",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"maknaka-maffin_NODE_2\",\n    \"amount\": 32,\n    \"data\": \"ewogICAgImFwcElkIjogImFwcDEiLAogICAgInZlcnNpb24iOiAidjEiLAogICAgImRhdGEiOiB7CiAgICAgICAgInBlcnNvbiI6IHsKICAgICAgICAgICAgIm5hbWUiOiAiQWRhbSIKICAgICAgICB9CiAgICB9Cn0=\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST2}}/transaction",
+							"host": [
+								"{{BLOCKCHAIN_HOST2}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transaction  between 2 Wallets",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "super-secret-key",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sender_pub\": \"04186dc7da6f6b5505b8bb87d9ad4e86a03d3b61dba85613ae5cf51b7c59ffc4a236bc8797ba69f23134b2ef9aef9f6071e0fb33463307e03d0e8c30204938bfb3\",\n    \"sender_priv\": \"dd618eb8598936ef77ed0256794c0905406d81d63e413b5dadb965d6097041cb\",\n    \"recipient\": \"04a92d4985ff2cb645930fa06f00ebb01a77ef3ad7379f1d8c32804a5e2af1fafa0d92647db2826fe670bd6726659644dc256f1bc68e3f15b5ad6678e2698fe7f3\",\n    \"amount\": 1,\n    \"data\": \"eyAibWVzc2FnZSI6ICJTb21lIG1lc3NhZ2UgdGV4dCIsICJhdXRob3IiOiAiQWRhbSBTbWl0aCJ9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/transaction",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Node",
+			"item": [
+				{
+					"name": "Get registered nodes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/node/registerednodes",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"node",
+								"registerednodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get registered nodes NODE 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST2}}/node/registerednodes",
+							"host": [
+								"{{BLOCKCHAIN_HOST2}}"
+							],
+							"path": [
+								"node",
+								"registerednodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get registered seed servers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/node/registeredseedservers",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"node",
+								"registeredseedservers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get registered seed servers NODE 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST2}}/node/registeredseedservers",
+							"host": [
+								"{{BLOCKCHAIN_HOST2}}"
+							],
+							"path": [
+								"node",
+								"registeredseedservers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Node Wallet Balance Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/node/wallet/balance",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"node",
+								"wallet",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Node Wallet Public Key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST2}}/node/wallet/public-key",
+							"host": [
+								"{{BLOCKCHAIN_HOST2}}"
+							],
+							"path": [
+								"node",
+								"wallet",
+								"public-key"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mine poll transactions to blockchain",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/node/mine-transactions",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"node",
+								"mine-transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Node HEALTHCHECK",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BLOCKCHAIN_HOST1}}/node/healthcheck",
+							"host": [
+								"{{BLOCKCHAIN_HOST1}}"
+							],
+							"path": [
+								"node",
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Misc",
+			"item": [
+				{
+					"name": "To a file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}:{{PORT}}/blockchain/tofile",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"blockchain",
+								"tofile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
