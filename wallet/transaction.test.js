@@ -13,73 +13,73 @@ describe ('Transaction', () => {
         transaction = Transaction.newTransaction(wallet, recipient, amount)
     })
 
-    it('outputs the `amount` from the wallet balance', () => {
+    it('check if wallet has correct outputs', () => {
         expect(transaction.output.find( otpt => otpt.address === wallet.publicKey).amount)
             .toEqual(wallet.balance - amount)
     })
 
-    it('outputs the `amount` added to the recipient balance', () => {
+    it('check amount added to recipient balance', () => {
         expect(transaction.output.find( otpt => otpt.address === recipient).amount)
             .toEqual(amount)
     })
 
-    it('inputs the balance of the wallet', () => {
+    it('will check if transaction and wallet have valid balances/ouputs', () => {
         expect(transaction.input.amount).toEqual(wallet.balance)
     })
 
-    it('validates the valid transaction', () => {
+    it('checks if transaction is valid', () => {
         expect(Transaction.verifyTransaction(transaction)).toBe(true)
     })
 
-    it('validates an invalid transaction', () => {
+    it('checks for invalid transaqction', () => {
         transaction.output[0].amount = 150000
         expect(Transaction.verifyTransaction(transaction)).toBe(false)
     })
 
 
-    describe('transaction with amount higher than wallet balance', () => {
+    describe('Test transaction with input amount higher than wallet balance', () => {
         
         beforeEach(() => {
-            amount = 50000000000
+            amount = 500000000000
             transaction = Transaction.newTransaction(wallet, recipient, amount)
         })
 
-        it('doesnt creates transaction when `amount` higher than `balance`', () => {
+        it('reject transaction if input amount is higher than wallet balance`', () => {
             expect(transaction).toEqual(undefined)
         })
     })
 
 
-    describe('updating transaction', () => {
+    describe('Test transaction updates', () => {
 
         let nextAmount, nextRecipient;
 
         beforeEach(() => {
             nextAmount = 20;
-            nextRecipient = '2feceb16ffc86f38d952786c6d696c723a' // random address
+            nextRecipient = '2feceb16ffc86f38d952786c6d696c723a' // some random address
             transaction = transaction.update(wallet, nextRecipient, nextAmount)
         })
 
-        it('subtracts the next amount from sender aoutput', () => {
+        it('will subtract the amount from the sender outputs', () => {
             expect(transaction.output.find(output=> output.address === wallet.publicKey).amount)
              .toEqual(wallet.balance - amount - nextAmount)
                 
         })
 
-        it('amount of recipient was changed correctly', () => {
+        it('correctly changed', () => {
             expect(transaction.output.find(output => output.address === nextRecipient).amount)
               .toEqual(nextAmount)
         })
     })
 
 
-    describe('create and reward transactions', () => {
+    describe('Test create and reward the new transactions', () => {
 
         beforeEach(() => {
             transaction  = Transaction.rewardTransaction(wallet, Wallet.blockchainWallet())
         })
 
-        it('reward the miners wallet', () => {
+        it('will reward the miner wallet', () => {
             expect(transaction.output.find(output => output.address === wallet.publicKey).amount)
                 .toEqual(MINING_REWARD)
         })

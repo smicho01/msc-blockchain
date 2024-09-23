@@ -8,14 +8,14 @@ class TractionPool {
     }
 
     updateOrAddTransaction(transaction) {
-        // Check if pool has zero transactions and rset its poolCreationTime to now 
-        // It is used to mone block if there is too low num of transactions to mie byt block is quite old
+        // Check if pool has zero transactions and reset its poolCreationTime to now
+        // It is used to mine block if there is too low num of transactions to mie byt block is quite old
         // Prevent from waiting 'forever' to mine latest transactions
         if(this.transactions.length == 0) {
             console.log(`Adding first transaction to the pool. Reseting poolCreationTime to current timestamp`)
             this.poolCreationTime = Date.now()
         }
-        // Transaction may exisst in transactions table, so it need an update as transaction can have multiple outputs
+        // Transaction may exist in transactions table, so it need an update as transaction can have multiple outputs
         let findExistingTransaction = this.transactions.find(trans => trans.id === transaction.id)
         if(findExistingTransaction)  {
             this.transactions[this.transactions.indexOf(findExistingTransaction)] = transaction

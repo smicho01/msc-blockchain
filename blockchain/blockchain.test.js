@@ -10,47 +10,42 @@ describe ('Blockchain', () => {
         blockchain2 = new Blockchain()
     })
 
-    it('start with the genesis block as 1st block', () => {
+    it('will check if the genesis block is the first block in chain', () => {
         expect(blockchain.chain[0]).toEqual(Block.genesis())
     });
 
-    it('adds new block', () => {
+    it('will create new block', () => {
         const data = 'cats are awesome!'
         blockchain.addBlock(data)
-
         expect(blockchain.chain[blockchain.chain.length - 1].data).toEqual(data)
     });
 
-    it('validates a valid chain', () => {
+    it('will validates correct chain', () => {
         blockchain2.addBlock('cats are awesome!')
         expect(blockchain.isValidChain(blockchain2.chain)).toBe(true)
     });
 
-    it('invalidates a chain with a corrupt genesis block', () => {
-        // shoul console log: invalid genesis block in isValidChain
-        blockchain2.chain[0] = 'Bad Genesis Block'
+    it('will invalidates a chain with a corrupt genesis block', () => {
+        // should console log: invalid genesis block in isValidChain
+        blockchain2.chain[0] = 'Wrong Genesis Block'
         expect(blockchain.isValidChain(blockchain2.chain)).toBe(false)
     });
 
-    it('validates a corrupt chain', () => {
+    it('will validates a corrupt chain', () => {
         blockchain2.addBlock('cats are awesome!')
         blockchain2.chain[1].data = 'cats are not cool!'
         expect(blockchain.isValidChain(blockchain2.chain)).toBe(false)
     });
 
-
-    it('replaces chian if new chain is valid', () => {
-        blockchain2.addBlock('lazy snake')
-        
+    it('will replaces chian if new chain is valid', () => {
+        blockchain2.addBlock('lazy fat cat')
         blockchain.replaceChain(blockchain2.chain)
-        // should also console log: Replacing blockchain with the new chain!
         expect(blockchain.chain).toEqual(blockchain2.chain)
     });
 
-    it('does not replaces chian with invalid new chain length [<=]', () => {
-        blockchain.addBlock('foo')
+    it('will skip chian replacement', () => {
+        blockchain.addBlock('kitty')
         blockchain.replaceChain(blockchain2.chain)
-        // should also console log: Received chain is not longer than the current chain [consenus matter]
         expect(blockchain.chain).not.toEqual(blockchain2.chain)
     });
 
